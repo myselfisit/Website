@@ -1,0 +1,68 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BRANDS</title>
+    <link rel="shortcut icon" href="{% static 'logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/page-header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_to_cart_button.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'bootstrap.html' %}
+{% include 'backToTop.html' %} <!-- Back to Top button -->
+<!-- OUR CATALOGUE -->
+<br><br>
+<div class="custom-container">
+    <h3 class="display-3">
+        <strong>OUR CATALOGUE</strong>
+    </h3>
+</div>
+<br><br>
+<!-- SEARCH BUTTON----JS IN assets/search.js -->
+<div style="display: flex; justify-content: center;">
+    <form class="d-flex" role="search" style="width: 50%;" onsubmit="event.preventDefault(); performSearch();">
+        <input class="form-control me-2" type="search" placeholder="search" aria-label="Search" id="search-input">
+        <button id="search-button" class="btn btn-outline-secondary" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+        <div style="flex-grow: 1;"></div>
+    </form>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        {% for all_brands in shop_brands %}
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex">
+            <div class="card" style="margin-bottom: 20px;">
+                <a href="{{ all_brands.brand_name }}" style="cursor: grab;">
+                    <img src="{{ all_brands.brand_image.url }}" class="card-img-top img-fluid" alt="shoe" style="object-fit: cover; width: 100%; height: 250px;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ all_brands.brand_name }}</h5>
+                    <p class="card-text" style="cursor: grab;">{{ all_brands.brand_description }}</p>
+                    {% if all_brands.brand_in_stock %}
+                        <b>In stock</b><br><br>
+                        <a href="{{ all_brands.brand_name }}">
+                            <button type="button" class="btn btn-outline-secondary"><strong>Continue to {{ all_brands.brand_name }}</strong></button>
+                        </a>
+                    {% else %}
+                        <p><b><s>ALL PRODUCTS HAVE SOLD OUT</s></b></p>
+                        <a style="cursor: grab;">
+                            <button type="button" class="btn btn-outline-secondary add-to-cart" disabled><strong>Continue to {{ all_brands.brand_name }}</strong></button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'js/search.js' %}"></script>
+
+<br><br><br>
+{% include 'baseshop_footer.html' %}
+
+</body>
+</html>

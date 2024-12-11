@@ -1,0 +1,73 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PROFILE DETAILS</title>
+    <link rel="stylesheet" href="{% static 'css/page-header.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'bootstrap.html' %}
+{% include 'backToTop.html' %} <!--Back to Top button -->
+<br><br>
+<div class="custom-container">
+    <h3 class="display-3">
+        <strong>{{ request.user }} details</strong><!-- page-header.css for custom container styling -->
+    </h3>
+</div>
+<br><br>
+
+<div class="container">
+    {% if user.userprofile.profile_picture %}
+        <div class="d-flex justify-content-center">
+            <a href="{{ user.userprofile.profile_picture.url }}" style="text-decoration: none;">
+                <img class="rounded-circle" src="{{ user.userprofile.profile_picture.url }}" style="object-fit: cover; width: 200px; height: 200px;">
+                <small class="btn btn-dark">view</small>
+            </a>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center">
+            <img class="rounded-circle" src="{% static 'default-profile-pic.png' %}" style="object-fit: cover; width: 200px; height: 200px;">
+        </div>
+    {% endif %}
+</div>
+<br><br>
+<div class="container">
+    <table class="table table-hover square-table" style="width: 100%;">
+        <tbody style="background-color: whitesmoke;">
+            <tr>
+                <td style="font-weight: bold;"><b>First Name</b></td>
+                <td>{{ request.user.first_name }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Last Name</td>
+                <td>{{ request.user.last_name }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Email</td>
+                <td>{{ request.user.email }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Username</td>
+                <td>{{ request.user.username }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Date Joined</td>
+                <td>{{ request.user.date_joined }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Last Log in</td>
+                <td>{{ request.user.last_login }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<div class="container">
+    <em class="d-flex justify-content-center"><a href="{% url 'accounts:edit_profile' %}" style="text-decoration: none;">edit your profile</a></em>
+</div>
+<br><br>
+{% include 'baseshop_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,267 @@
+{% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>TOP Gz</title>
+    <link rel="shortcut icon" href="{% static 'logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+    <style>
+        .team-img {
+          height: 100%;
+          width: 100%;
+          max-height: 300px;
+          object-fit: cover;
+        }
+        </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/testimonies.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"/>
+</head>
+<body>
+{% include 'bootstrap.html' %}
+{% include 'backToTop.html' %} <!--Back to Top button -->
+
+<!--Shop Logo -->
+<!-- <div style="position: absolute; top: 90; left: 0; width: 100px;">
+    <a href="{% url 'introPage:home-page' %}">
+        <img src="{% static 'topg-logo.gif' %}" style="width: 75%; top: 90; left: 0;" alt="GIF">
+    </a>
+</div> -->
+
+<div class="container-fluid py-5">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="display-3 mt-5">
+                <br><br>
+                <strong style="color:grey"> Improve Your Footwear With Us. </strong>
+            </p>
+            <br><br>
+            <p style="font-family: sans-serif; font-size: xx-large">
+                Welcome to Top Gz Shoe Shop, where we are dedicated to providing you with the best shoe shopping experience possible.
+            </p>
+            <div class="d-flex justify-content-center align-items-center" style="height: 20vh;">
+                <a href="{% url 'brands:catalogue' %}">
+                    <button type="button" class="btn btn-outline-secondary btn-lg"><strong>Our Catalogue</strong></button>
+                </a>
+            </div>
+            <br>
+            <p style="font-family: sans-serif; font-size: xx-large">
+                Whether you need help with sizing, recommendations for a specific occasion, or just want to chat about the latest shoe trends, we are here to assist you.
+            </p>
+            <div class="d-flex justify-content-center align-items-center" style="height: 20vh;">
+                <a href="{% url 'servicesPage:customer_service' %}">
+                    <button type="button" class="btn btn-outline-secondary btn-lg"><strong>Customer Service</strong></button>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <img src="{% static 'about.jpg' %}" class="img-fluid" alt="Top Gz">
+        </div>
+    </div>
+</div>
+
+<!--Popular Products -->
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3 class="display-5 text-center mt-5"><strong>Popular Products</strong></h3>
+        </div>
+    </div>
+    <br>
+    <div class="owl-carousel owl-theme mt-3">
+        <div class="item">
+            <a href="{% url 'brands:Shoes Accessories' %}" style="text-decoration: none; cursor: grab;">
+                <img class="img-fluid" src="media/shoes/Inner_soles_XC9Jmba.jpg" alt="Inner Soles">
+            </a>
+            <div class="caption">
+                <h4 style="color: grey">Inner Soles</h4>
+            </div>
+        </div>
+
+        <div class="item">
+            <a href="{% url 'brands:Jordans' %}" style="text-decoration: none; cursor: grab;">
+                <img class="img-fluid" src="media/shoes/Air_Jordan_3_infrared_23_0MBYHLM.jpg" alt="Air Jordan 3">
+            </a>
+            <div class="caption">
+                <h4 style="color: grey">Air Jordan 3</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts to support the Jquery Owl-carousels -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<!--The responsiveness of the carousels -->
+<script type="text/javascript">
+    $('.owl-carousel').owlCarousel({
+    loop: true,
+    margin: 30,
+    nav: false,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    margin: 30,
+    autoplayHoverPause: true,
+    dots: false,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:4
+        }
+    }
+})
+</script>
+<br><br><br><br>
+
+<!-- SHOP TESTIMONIALS STYLIN[testimonial.css] static [testimonial.html]-->
+
+<div class="container">
+    <h3 class="display-5 text-center mt-5"><strong>What People are saying</strong></h3>
+    <div class="row">
+        <div class="col">
+            <section class="testimonial_wrap col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="slider">
+                            <!-- testimonies--->
+                                {% for testimony in shop_testimonies %}
+                                    {% if testimony.approved %}
+                                        <div class="item">
+                                            <div class="inner">
+                                                <div class="thumb">
+                                                    {% if testimony.user.userprofile.profile_picture %}
+                                                        <img src="{{ testimony.user.userprofile.profile_picture.url }}" class="img-fluid">
+                                                    {% else %}
+                                                        <img src="{% static 'default-profile-pic.png' %}" class="img-fluid">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="excert col-12">
+                                                    <p>
+                                                        {{ testimony.comment }}
+                                                    </p>
+                                                    <div class="info">
+                                                        <p>
+                                                            <i class="fa fa-quote-right"></i>
+                                                            {% if testimony.user == request.user %}
+                                                                <a href="javascript:void(0);" style="text-decoration: none;">You</a>
+                                                            {% else %}
+                                                                <a href="javascript:void(0);" style="text-decoration: none;">{{ testimony.user.username }}</a>
+                                                            {% endif %}
+                                                            <span>Top Gz customer</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-rMVwujtLz2JWFJvF9R8rlMcBQ4inAWaST5B3u4eUv7zA1B2FFc0X4f5i9YNbV0rFNTZjpXbzWDEerUdA1h/jw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    $('.slider').slick({
+        slidesToshow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        dots: true,
+        loop: true,
+        speed: 1500,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        infinite: true,
+    });
+</script>
+<br><br><br>
+
+<!--THE SHOP -->
+
+<h3 class="display-5 text-center mt-5"><strong>Improve your footwear</strong></h3>
+<br>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid" src="{% static 'services.jpg' %}">
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <h1 class="mb-4">Unleash Your Style Potential with Top Gz Shoe Shop</h1>
+            <p style="font-size: larger;">
+                Experience exceptional service, top-notch quality, and a wide selection of footwear for men, women, and children.
+                Step into fashion-forward comfort and elevate your shoe game with us.
+            </p>
+            <div class="d-flex justify-content-center align-items-center mt-3">
+                <a href="{% url 'servicesPage:services-page' %}" class="btn btn-outline-secondary btn-lg"><strong>Our Services</strong></a>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+<!-- ABOUT THE SHOP LINK -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-thumbnail rounded img-fluid" style="object-fit: cover;" src="{% static 'intro-bg.jpg' %}" alt="Vans Slip-on custom.jpg">
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <h1 class="mb-4">Your go-to destination for stylish and comfortable footwear</h1>
+            <p style="font-size: larger;">
+                At Top Gz Shoe Shop, we are committed to providing you with the best shoe shopping experience possible.
+            </p>
+            <div class="d-flex justify-content-center align-items-center mt-3">
+                <a href="{% url 'introPage:about-page' %}" class="btn btn-outline-secondary btn-lg"><strong>LEARN MORE ABOUT US</strong></a>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br>
+<!--THE TEAM LINK -->
+<div class="container mt-5">
+    <h3 class="display-5 text-center mb-4"><strong>Our Team</strong></h3>
+    <blockquote class="blockquote text-center">
+        <p>
+            We are passionate about footwear and are ready to assist you in every step of your shoe-shopping journey.
+            Meet the Top Gz Shoe Shop Team – a group of dedicated shoe enthusiasts committed to providing you with exceptional service.
+        </p>
+    </blockquote>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-md-4 mb-4">
+            <img class="img-circle team-img img-fluid" src="{% static 'team22.jpg' %}" alt="shoe">
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <img class="img-circle team-img img-fluid" src="{% static 'team1.jpg' %}" alt="shoe">
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <img class="img-circle team-img img-fluid" src="{% static 'team3.jpg' %}" alt="shoe">
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center mt-4">
+        <a href="{% url 'introPage:team-page' %}" class="btn btn-outline-secondary btn-lg"><strong>MEET THE TEAM</strong></a>
+    </div>
+</div>
+<br><br><br>
+<!--FOOTER -->
+{% include 'baseshop_footer.html' %}
+</body>
+</html>

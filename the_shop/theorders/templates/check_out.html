@@ -1,0 +1,262 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CHECKOUT</title>
+	<link rel="shortcut icon" href="{% static 'logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/page-header.css' %}">
+</head>
+<body>
+{% if user.is_authenticated %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+{% endif %}
+
+{% include 'bootstrap.html' %}
+{% include 'backToTop.html' %} <!--Back to Top button -->
+<br><br>
+<div class="custom-container">
+    <h3 class="display-3">
+        <strong>CHECKOUT</strong><!-- page-header.css for custom container styling -->
+    </h3>
+</div>
+<br><br>
+
+<div class="row d-flex">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper" style="background-color: darkgray;">
+				<form id="form">
+					<!-- <div id="user-info">
+						<div class="form-field hidden">
+							<input required class="form-control" type="text" name="name" placeholder="Name..">
+						</div>
+						<div class="form-field hidden">
+							<input required class="form-control" type="email" name="email" placeholder="Email..">
+						</div>
+					</div> -->
+
+					{% if shipping_address %}
+						<div id="shipping-info">
+							<hr>
+							<p>Shipping Information:</p>
+							<hr>
+							<div class="form-field">
+								<input class="form-control" type="text" name="country" placeholder="country.." value="{{ shipping_address.country }}">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="city" placeholder="City.." value="{{ shipping_address.city }}">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="state" placeholder="State.." value="{{ shipping_address.state }}">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="zipcode" placeholder="Zip code.." value="{{ shipping_address.zip_code }}">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="address" placeholder="Address.."  value="{{ shipping_address.address }}">
+							</div>
+						</div>
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+					{% else %}
+						<div id="shipping-infoo">
+							<hr>
+							<p style="color: grey;">Shipping Information:</p>
+							<hr>
+							<div class="form-field">
+								<input class="form-control" type="text" name="country" placeholder="Country..">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="city" placeholder="City..">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="state" placeholder="State..">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+							</div>
+							<div class="form-field">
+								<input class="form-control" type="text" name="address" placeholder="Address..">
+							</div>
+						</div>
+
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block hidden" type="submit" value="Continue">
+					{% endif %}
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info" style="background-color: darkgray;">
+				<b style="color: grey;">Free Shipping and deliveries for your first 3 orders</b><br><br>
+				<small style="color: grey;">Payment options:</small><br><br>
+				<div class="d-grid gap-3">
+					<p id="liveToastBtn">
+						<button class="btn btn-outline-dark btn-lg" id="make-payment" style="width: 100%;">Pay on delivery</button>
+					</p>
+					<div style="position: fixed; bottom: 50%; right: 0; transform: translate(0, 50%); color: grey;" class="toast-container p-3">
+						<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+							<div class="toast-header">
+								{% if user.userprofile.profile_picture %}
+									<img src="{{ user.userprofile.profile_picture.url }}" class="rounded me-2" style="width: 50px; height: 70px; object-fit: cover;">
+								{% else %}
+									<h5> {{ request.user.username }}</h5>
+								{% endif %}
+								<a class="me-auto" href="{% url 'orders:my_orders' %}" style="text-decoration: none;"><b>View Complete Orders</b></a>
+								<div class="spinner-grow spinner-grow-sm" role="status">
+								  <span class="visually-hidden"></span>
+								</div>
+								<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+							</div>
+							<div class="toast-body">
+								<p class="lead">
+									Order Was placed successfully, check <a class="me-auto" href="{% url 'orders:my_orders' %}" style="text-decoration: none;"><b>My Orders</b></a> to see order details
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<small style="color: grey;">Coming Soon:</small><br><br>
+					<div id="paypal-button-container" style="pointer-events: none;"></div>
+			</div>
+
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element" style="background-color: darkgray;">
+				<a  class="btn btn-outline-dark" href="{% url 'orders:add_to_cart' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row" style="color: black;">
+					<div style="flex:2"><img class="row-image" src="{{ item.product.shoe_image.url }}"></div>
+					<div style="flex:2"><p>{{ item.product.shoe_name }}</p></div>
+					<div style="flex:1"><p>${{ item.product.shoe_price }}</p></div>
+					<div style="flex:1"><p><b>x{{ item.quantity }}</b></p></div>
+				</div>
+				{% endfor %}
+				<h5>Items:    {{ order.get_cart_items }}</h5>
+				<h5>Total:    ${{ order.get_cart_total }}</h5>
+			</div>
+		</div>
+	</div>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+
+<script>
+	// Render the PayPal button into #paypal-button-container
+	paypal.Buttons({
+
+		// Call your server to set up the transaction
+		createOrder: function(data, actions) {
+			return actions.order.create({
+				purchase_units: [{
+					amount: {
+						value: '0.01'
+					}
+				}]
+			});
+		},
+
+		// FINALIZE THE TRANSACTION
+		onApprove: function(data, actions) {
+			return actions.order.capture().then(function(details) {
+				// show success message to buyer
+				alert('Transaction completed by' + details.payer.name.given_name + '!')
+			});
+		}
+
+	}).render('#paypal-button-container');
+ </script>
+
+<script type="text/javascript">
+	var form = document.getElementById('form')
+	var total = '{{order.get_cart_total}}'
+	var formButton = document.getElementById('form-button');
+	var formFields = form.querySelectorAll('input[name]:not([type="submit"])');
+
+	// Check if all form fields are filled
+	function validateForm() {
+		var isFormValid = true;
+		formFields.forEach(function(field) {
+			if (field.value.trim() === '') {
+				isFormValid = false;
+			}
+		});
+		return isFormValid;
+	}
+
+	// Show or hide the form button based on form validation status
+	function toggleFormButton() {
+		if (validateForm()) {
+			formButton.classList.remove('hidden');
+		} else {
+			formButton.classList.add('hidden');
+		}
+	}
+
+	// Listen for changes in form fields
+	formFields.forEach(function(field) {
+		field.addEventListener('input', toggleFormButton);
+	});
+
+	form.addEventListener('submit', function(e){
+		e.preventDefault()
+		console.log('form submitted successfully')
+		document.getElementById('form-button').classList.add('hidden')
+		document.getElementById('payment-info').classList.remove('hidden')
+	})
+
+
+	document.getElementById('make-payment').addEventListener('click', function(e){
+		submitFormData()
+	})
+
+	function submitFormData(){
+		console.log('Payment button clicked')
+
+		var userFormData = {
+			"total": total,
+		}
+
+		var shippingInfo = {
+			"address": null,
+			"city": null,
+			"state": null,
+			"zipcode": null,
+			"country": null,
+		}
+
+		shippingInfo.address = form.address.value
+		shippingInfo.city = form.city.value
+		shippingInfo.state = form.state.value
+		shippingInfo.zipcode = form.zipcode.value
+		shippingInfo.country = form.country.value
+
+		var url = '/orders/process_order/'
+
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type':'application/json',
+            	'X-CSRFToken': csrftoken,
+			},
+			body:JSON.stringify({
+				"form": userFormData,
+				"shipping": shippingInfo
+			})
+		})
+		.then((response) => response.json())
+
+		.then((data) => {
+			console.log('Success', data);
+			setTimeout(function() {
+				window.location.href = "{% url 'orders:leave_a_comment' %}";
+			}, 500);
+		})
+	}
+</script>
+<script src="{% static 'js/live_toast.js' %}"></script>
+<br><br><br><hr>
+{% include 'baseshop_footer.html' %}
+</body>
+</html>
